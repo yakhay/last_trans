@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Register Forms</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function get_csrf_token() {
+                fetch('/api/csrf-token/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('csrfToken').value = data.csrfToken;
+                })
+                .catch(error => console.error('Error fetching CSRF token:', error));
+            }
+            get_csrf_token();
+            document.getElementById('login-form-id').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                const csrfToken = document.getElementById('csrfToken').value;
+                fetch('/account/loginuser/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.alert === 'ok') {
+                            window.location.href = data.redirect_url;
+                    } else {
+                        document.getElementById('messages').innerHTML =  data.alert;
+                        document.getElementById('messages').style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('messages').innerHTML = error;
+                    document.getElementById('messages').style.color = 'red';
+                });
+            });
+        });
+    </script>
+    <form id="login-form-id" method="post" action="/account/loginuser/">
+        <input type="hidden" name="csrfmiddlewaretoken" id="csrfToken"/>
+        <h2>Login</h2>
+        <input name="username" type="text" placeholder="Username" required/>
+        <input name="password" type="password" placeholder="Password" required/>
+        <div id="messages"></div>
+        <button type="submit">Login</button>
+        <a href="/SignUp/">Create an account</a><br>
+        <div class="reset-password">Forgot password? <a href="/reset_password/">Reset</a></div>
+    </form>
+</body>
+</html>

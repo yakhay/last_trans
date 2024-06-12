@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .message {
+            margin-bottom: 20px;
+        }
+        .logout-btn, .update-info-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .logout-btn:hover, .update-info-btn:hover {
+            background-color: #d32f2f;
+        }
+        .update-info-link {
+            text-decoration: none;
+            color: #2196F3;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        div span
+        {
+            color: red;
+        }
+        .friends {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .friends h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .friends input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .friends input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .requests {
+            border: 1px solid #ccc; /* Light gray border around the div */
+            padding: 20px; /* Padding inside the div */
+            margin: 20px auto; /* Center the div and add vertical margin */
+            max-width: 600px; /* Limit the maximum width of the div */
+            background-color: #f9f9f9; /* Light background color */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+        .requests h2 {
+            font-size: 1.8em; /* Increase the font size of the heading */
+            margin-bottom: 15px; /* Space below the heading */
+            color: #333; /* Dark gray color for the heading text */
+            text-align: center; /* Center align the heading */
+        }
+
+        .requests input[type="submit"] {
+            display: block; 
+            width: 100%; 
+            padding: 10px;
+            margin-bottom: 10px; 
+            background-color: #007bff; 
+            color: #fff; 
+            border: none;
+            border-radius: 4px;
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 1em; /* Sets the font size of the button text */
+            text-align: center; /* Centers the text inside the buttons */
+        }
+
+        .requests input[type="submit"]:hover {
+            background-color: #0056b3; 
+        }
+
+        .msg_error span
+        {
+
+            display: block;
+            width : 0px;
+            color : white;
+            heigth: 50;
+            background-color: red;
+            margin-bottom : 50px;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="msg_error">
+        {% for message in messages%}
+            <span class="message_error">{{ message }}<span>
+        {% endfor%}
+        {% comment %} <button onclick="this.remove()">remove</button> {% endcomment %}
+    </div>
+    <div class="message">
+        <img src="{{ user_profile.photo_profile.url }}" alt="photo_profile" width='200px'/>
+        <p>Hello, Mr. {{ user_info.username }}!</p>
+        <p>your email : {{ user_info.email }}!</p>
+        {% if user_info.first_name  %}
+            <p>your first name : {{ user_info.first_name }}!</p>
+        {% endif%}
+        {% if user_info.last_name  %}
+            <p>your last name : {{ user_info.last_name }}!</p>
+        {% endif%}
+        <p>The information is saved with success.</p>
+        <p>You can logout or update your information by pressing this button:</p>
+    </div>
+    <button class="logout-btn">
+        <a href="{% url 'logoutUser' %}" style="text-decoration:none; color:white;">Logout</a>
+    </button>
+    <div class="update-info-link">
+        <a class="update-info-btn" href="{% url 'updateInformation' %}">Update Information</a>
+    </div>
+    <div class="friends">
+    <form method="post" action="{% url 'sendRequest'%}">
+        {% csrf_token%}
+        <h3> send friend request</h3>
+        {% for friend in users_friend %}
+            {% if user_info.username != friend.user.username %}
+                <input type="submit" name="username" value={{friend.user.username}}>
+            {% endif%}
+        {% endfor%}
+    </form>
+    </div>
+    <div class="requests">
+        <form method="post" action="{% url 'addUserAsFrined'%}">
+            {% csrf_token%}
+
+            <h2>invitation</h2>
+            {% for invi in request_Friend %}
+                {% comment %} <a href="{% url 'addUserAsFrined'%}"> {% endcomment %}
+                    <input type="submit" name="username" value={{invi.request_user.username}}>
+                {% comment %} </a> {% endcomment %}
+                {% comment %} <a href="{% url 'deleterequest'%}">
+                    <input type="submit" name="username" value={{invi.request_user.username}}>
+                </a> {% endcomment %}
+            {% endfor %}
+        </form>
+    </div>
+    <div class="friends">
+        <h2>your friends </h2>
+        {% for friend in friends%}
+            <input type="submit" name="username" value={{friend.friend.username}}>
+        {% endfor %}
+    </div>
+    <div class="change_password">
+        <a href="{% url 'password_change'%}">
+            change your password
+        </a>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

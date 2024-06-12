@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('login-form-id').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                const csrfToken = document.getElementById('csrfToken').value;
+                fetch('/account/registeruser/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === true) {
+                        window.location.href = "/SignIn/";
+                    } else {
+                        console.log(data.error);
+                        if (data.error.username != undefined)
+                        {
+                            document.getElementById('messageusername').innerHTML = data.error.username;
+                            document.getElementById('messageusername').style.color = 'red';
+                        }
+                        else
+                        {
+                            document.getElementById('messageusername').innerHTML = '';
+                        }
+                        if (data.error.password2 != undefined)
+                        {
+                            document.getElementById('messagepassword2').innerHTML = data.error.password2;
+                            document.getElementById('messagepassword2').style.color = 'red';
+                        }
+                        else
+                        {
+                            document.getElementById('messagepassword2').innerHTML = '';
+                        }
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('messages').innerHTML = error;
+                    document.getElementById('messages').style.color = 'red';
+                    
+                });
+            });
+        });
+        function get_csrf_token(){
+            fetch('/api/csrf-token/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('csrfToken').value = data.csrfToken;
+            })
+            .catch(error => console.error('Error fetching CSRF token:', error));
+        }
+        get_csrf_token();
+    </script>
+</head>
+<body>
+    <form method="post" id="login-form-id" action="/account/registeruser/" enctype="multipart/form-data">
+        <input type="hidden" name="csrfmiddlewaretoken" id="csrfToken">
+        <input type="text" id="username" name="username" placeholder="Username" required><br>
+        <div id="messageusername"></div>
+        <input type="text" id="first_name" name="first_name" placeholder="First Name"required><br>
+        <input type="text" id="last_name" name="last_name" placeholder="Last Name" required><br>
+        <input type="email" id="email" name="email" placeholder="Email" required><br>
+        <input type="password" id="password1" name="password1" placeholder="Password" required><br>
+        <div id="messagepassword"></div>
+        <input type="password" id="password2" name="password2" placeholder="Confirm Password" required><br>
+        <div id="messagepassword2"></div>
+        <button type="submit">Register</button>
+        <a href="/SignIn/">Back to Login</a>
+    </form>
+</body>
+</html>

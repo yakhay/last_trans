@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <script src="profile.js"></script>
+    <link rel="icon" type="image/x-icon" href="icon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <img src="" id= "avatar" alt="Gamer Avatar">
+            <h1 id ="username"></h1>
+            <h1 id="email"></h1>
+        </div>
+        <div style="text-align: center;">
+            <button id="btn" class="btn">Change Avatar</button>
+            <button id="usernameBtn" class="btn">Change Username</button>
+        </div>
+        <div class="game-info">
+            <h3 id ="blackhole"></h3>
+            <h3 id ="level"></h3>
+        </div>
+        <form id="avatarForm" class="form-container" method="post" enctype="multipart/form-data" action="/update_profile/">
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfToken1">
+            <label for="image">Choose an image to upload:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+        <form id="userform" class="form-container" method="post" enctype="multipart/form-data" action="/update_username/">
+            <input type="hidden" name="csrfmiddlewaretoken" id="csrfToken">
+            <label for="usernameInput">New Username:</label>
+            <input type="text" id="usernameInput" name="username" required>
+            <button type="submit">Change</button>
+        </form>
+    </div>
+    
+</body

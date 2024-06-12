@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error_msg{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="post" action="{% url 'EditInforamtion' %}"
+            enctype="multipart/form-data" >
+            {% csrf_token %}
+            <label>username<label>
+                <input name="username" type="text" value="{{user.username}}"/>
+            <label>First name<label>
+                <input name="first_name" type="text" value="{{user.first_name}}"/>
+            <label>Last name<label>
+                <input name="last_name" type="text" value="{{user.last_name}}"/>
+                <label>Email address<label>
+                    <input name="email" type="email" value="{{user.email}}"/>
+                <label>photo_profile<label>
+                    <input name="photo_profile" type="file" value="{{ user_profile.photo_profile }}"/>
+                <br>
+                <br>
+            {% if form.errors  %}
+                <div class="error_msg">{{ form.errors }}</div>
+            {% endif%}
+            <button type="submit">Update Information</button>
+        </form>
+    </div>
+</body>
+</html>

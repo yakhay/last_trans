@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="game.css">
+    <script src='game.js'></script>
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="navbar">
+        <img src="" id ="pro"alt="User Image" style="width: 50px; height: 50px; border-radius: 50%;">
+        <h1 id="login"></h1>
+        <h1>PING PONG</h1>
+        <div>
+            <button id="ShowMenu-id" onclick="navigate('menu-section-id')">Menu</button>
+            <button id="logoutButton">Exit</button>
+        </div>
+    </div>
+        <div class="bodyy">
+            <section id="menu-section-id">
+                <div id="menu-id" class="menu">
+                    <button id="play-id" class="menu-btn" onclick="navigate('play')">Play</button>
+                    <!-- <button id="toggleFriends" class="menu-btn">Show Friends</button> -->
+                    <!-- <button id="settingsButton" class="menu-btn">Profile</button> -->
+                    <button id="play-tournament-id" class="menu-btn" onclick="navigate('play_tournament')">tournament</button>
+                    <button id="play-four_players-id" class="menu-btn" onclick="navigate('ping-pong-4')">four players</button>
+                    <!-- <button id="boot" class="menu-btn">Boot</button> -->
+                </div>
+            </section>
+            <section id="loading-section-id">
+                <div id="loading">
+                    <div id="loader"></div>
+                </div>
+            </section>
+            <section id="play">
+                <div id="ping-pong-2" class="ping-pong">
+                    <div class="users">
+                        <div class="user1">
+                            <img id="2-canvas-icon-id-0" class="icon">
+                            <h2 id="2-canvas-display_name-id-0" class="display-name"></h2>
+                        </div>
+                        <div class="user2">
+                            <h2 id="2-canvas-display_name-id-1" class="display-name"></h2>
+                            <img id="2-canvas-icon-id-1" class="icon">
+                        </div>
+                    </div>
+                    <canvas id="2-canvas-id" class="canvas" width="600px" height="300px"></canvas>
+                </div>
+            </section>
+            <section id="play-4" >
+                <div class="ping-pong">
+                    <div class="users">
+                        <div class="user1">
+                            <img id="4-canvas-icon-id-0" class="icon">
+                            <h2 id="4-canvas-display_name-id-0" class="display-name"></h2>
+                        </div>
+                        <div class="user2">
+                            <h2 id="4-canvas-display_name-id-2" class="display-name"></h2>
+                            <img id="4-canvas-icon-id-2" class="icon">
+                        </div>
+                    </div>
+                    <canvas id="4-canvas-id" class="canvas" width="600px" height="300px"></canvas>
+                    <div class="users">
+                        <div class="user1">
+                            <img id="4-canvas-icon-id-1" class="icon">
+                            <h2 id="4-canvas-display_name-id-1" class="display-name"></h2>
+                        </div>
+                        <div class="user2">
+                            <h2 id="4-canvas-display_name-id-3" class="display-name"></h2>
+                            <img id="4-canvas-icon-id-3" class="icon">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="play_tournament">
+                <div id="tournament-id" class="tournament">
+                    <div class="round">
+                        <div class="matchup">
+                            <div id="00" class="player"></div>
+                            <div id="01" class="player"></div>
+                        </div>
+                        <div class="matchup">
+                            <div id="02" class="player"></div>
+                            <div id="03" class="player"></div>
+                        </div>
+                        <div class="matchup">
+                            <div id="04" class="player"></div>
+                            <div id="05" class="player"></div>
+                        </div>
+                        <div class="matchup">
+                            <div id="06" class="player"></div>
+                            <div id="07" class="player"></div>
+                        </div>
+                    </div>
+                    <div class="round">
+                        <div class="matchup">
+                            <div id="10" class="player"></div>
+                            <div id="11" class="player"></div>
+                        </div>
+                        <div class="matchup">
+                            <div id="12" class="player"></div>
+                            <div id="13" class="player"></div>
+                        </div>
+                    </div>
+                    <div class="round">
+                        <div class="matchup">
+                            <div id="20" class="player"></div>
+                            <div id="21" class="player"></div>
+                        </div>
+                    </div>
+                    <div class="champion">
+                        <div id="30" class="player"></div>
+                    </div>
+                </div>
+            </section>
+            <section id="resultModal">
+                <div id="modalContent">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <span id="resultMessage"></span>
+                    <img id="result-gif">
+                </div>
+            </section>
+            <section id="win-tournament-id">
+                <img id="win-tournament-background-id" src="https://cdn.dribbble.com/users/7421625/screenshots/18722898/media/9dc2ccd128c89b19dddd55447ba5e1d0.gif">
+            </section>
+        </div>
+    </body>
+</html>
